@@ -1,0 +1,68 @@
+const { expressjwt: expressJwt } = require("express-jwt");
+
+function authJwt() {
+  const secret = process.env.SECRET_KEY;
+  console.log("JWT Middleware initialized with secret:", secret);
+
+  if (!secret) {
+    throw new Error("SECRET_KEY environment variable is not set");
+  }
+
+  return expressJwt({
+    secret,
+    algorithms: ["HS256"],
+    getToken: (req) => {
+      if (req.cookies?.token) {
+        return req.cookies.token;
+      }
+      if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith("Bearer ")
+      ) {
+        return req.headers.authorization.split(" ")[1];
+      }
+      return null;
+    },
+  }).unless({
+    path: [
+      // Public routes (no authentication required)
+      "/login",
+      "/signup",
+      "/reviews",
+      "/filters",
+      "/getProducts",
+      "/create-checkout-session",
+      "/api/orders/create-from-session",
+      "/payments/orders/create-from-session",
+      { url: /\/products(.*)/, methods: ["GET"] },
+    ],
+  });
+}
+
+// New middleware for admin-only routes
+// function isAdmin(req, res, next) {
+//   // req.auth is populated by express-jwt after successful authentication
+//   if (!req.auth || !req.auth.isAdmin) {
+//     return res.status(403).json({
+//       success: false,
+//       message: "Access denied. Admin privileges required.",
+//     });
+//   }
+//   next();
+// }
+
+// Optional: middleware for checking if user owns the resource
+// function isOwnerOrAdmin(req, res, next) {
+//   const userId = req.params.userId || req.body.userId;
+  
+//   if (req.auth.isAdmin || req.auth.userId === userId) {
+//     return next();
+//   }
+  
+//   return res.status(403).json({
+//     success: false,
+//     message: "Access denied. You can only access your own data.",
+//   });
+// }
+
+module.exports =  authJwt ;
