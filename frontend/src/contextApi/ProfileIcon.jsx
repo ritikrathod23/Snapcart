@@ -11,9 +11,10 @@ export const ProfileIconProvider = ({ children }) => {
     const token = Cookies.get("token");
 
     const storedUser = localStorage.getItem("user");
-    setMyUser(storedUser ? JSON.parse(storedUser) : null);
+    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
 
-    setUser(!!token);
+    setMyUser(parsedUser);
+    setUser(!!parsedUser);
   }, []);
 
   return (

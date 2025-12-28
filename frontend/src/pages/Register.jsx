@@ -3,11 +3,16 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import useRegisterUser from "../Hooks/useRegisterUser";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default function Register() {
   const { mutate } = useRegisterUser();
   const navigate = useNavigate();
   const [btn, setBtn] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -124,24 +129,37 @@ export default function Register() {
                         Password
                       </label>
                     </div>
-                    <div className="mt-2">
-                      <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        {...register("password", {
-                          required: {
-                            value: true,
-                            message: "Password is required",
-                          },
-                          pattern: {
-                            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-                            message:
-                              "Minimum eight characters, at least one letter and one number",
-                          },
-                        })}
-                        className="pl-2 block w-full rounded-md border-0 py-1.5 text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      />
+                    <div className="mt-2 ">
+                      <div className="relative">
+                        <input
+                          id="password"
+                          name="password"
+                          type={showPassword ? "text" : "password"}
+                          {...register("password", {
+                            required: {
+                              value: true,
+                              message: "Password is required",
+                            },
+                            pattern: {
+                              value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                              message:
+                                "Minimum eight characters, at least one letter and one number",
+                            },
+                          })}
+                          className="pl-2 block w-full rounded-md border-0 py-1.5 text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                        <div
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
+                        >
+                          {showPassword ? (
+                            <VisibilityOffIcon />
+                          ) : (
+                            <VisibilityIcon />
+                          )}
+                        </div>
+                      </div>
+
                       {errors.password && (
                         <p className="px-2 text-sm text-red-600 py-1 ">
                           {errors.password.message}
@@ -301,7 +319,7 @@ export default function Register() {
                     type="submit"
                     className="flex mt-4 w-full justify-center rounded-md bg-mycolornew px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
-                   {isSubmitting? "Submitting" : "Submit" } 
+                    {isSubmitting ? "Submitting" : "Submit"}
                   </button>
                 </div>
               )}

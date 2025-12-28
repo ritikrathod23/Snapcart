@@ -1,5 +1,4 @@
 function handleError(err, req, res, next) {
-    console.error(err);
 
     // ✅ If response was already sent, don't try to send again
     if (res.headersSent) {

@@ -1,26 +1,31 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useProfileIcon } from "../contextApi/ProfileIcon";
 const API_URL = import.meta.env.VITE_API_URL;
-function useGetCategory() {
-  const getCategory = async () => {
+
+function useGetUserDetails() {
+  const { myUser } = useProfileIcon();
+  const id = myUser?.user?._id; 
+
+  const getUserDetails = async () => {
+    if (!id) return null;
     try {
-      const response = await axios.get(`${API_URL}/categories`,{
+      const response = await axios.get(`${API_URL}/get-user/${id}`, {
         withCredentials: true,
       });
-      console.log(response.data);
       return response.data; // axios wraps response in data property
     } catch (error) {
       console.log(error.message, "can not get data");
     }
   };
 
-    return useQuery({
-    queryKey: ["category"],
-    queryFn: getCategory,
+  return useQuery({
+    queryKey: ["userDetails", id],
+    queryFn: getUserDetails,
+    enabled: !!id,
     staleTime: 1000 * 60 * 5, // 5 minutes cache
     retry: 3, // Retry 3 times before failing
     refetchOnWindowFocus: false,
   });
 }
-
-export default useGetCategory;
+export default useGetUserDetails;

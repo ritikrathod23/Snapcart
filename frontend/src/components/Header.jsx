@@ -1,8 +1,4 @@
 import React from "react";
-import MenImage from "../accest/MenImage.jpg";
-import womenImage from "../accest/womenImage.jpg";
-import mobile from "../accest/mobile.jpg";
-import jwellery from "../accest/jwellery.jpg";
 import { Link } from "react-router-dom";
 
 function Header() {
@@ -22,7 +18,7 @@ function Header() {
           <div className="text-center">Kids</div>
       </Link>
 
-      <Link to={"/watches"}>
+      {/* <Link to={"/watches"}>
           <div className="text-center">Watches</div>
       </Link>
       <Link to={"/malefootwear"}>
@@ -33,7 +29,7 @@ function Header() {
       </Link>
       <Link to={"/books"}>
           <div className="text-center">Books</div>
-      </Link>
+      </Link> */}
     </div>
   );
 }

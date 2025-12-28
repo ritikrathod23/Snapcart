@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 function useGetProductDetails() {
     const {pathname} = window.location;
@@ -8,7 +10,7 @@ function useGetProductDetails() {
     console.log("id in hook",id)
   const getProductDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/products/${id}`,{
+      const response = await axios.get(`${API_URL}/products/${id}`,{
         withCredentials: true,
       });
       console.log(response.data);

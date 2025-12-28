@@ -2,12 +2,13 @@ import { useMutation,  useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function useDeleteCartItems() {
   const queryClient = useQueryClient()
   const deleteCartItems = async (itemId) => {
     try {
-      const res = await axios.delete("http://localhost:3000/cart", {
+      const res = await axios.delete(`${API_URL}/cart`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

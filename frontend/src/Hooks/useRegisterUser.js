@@ -1,10 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function useRegisterUser() {
   const createUser = async (data) => {
     try {
-      const response = await axios.post(`http://localhost:3000/signup`,
+      const response = await axios.post(`${API_URL}/signup`,
         data,
         {
           headers: {

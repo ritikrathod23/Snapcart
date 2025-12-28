@@ -1,11 +1,12 @@
 import React from 'react'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
+const API_URL = import.meta.env.VITE_API_URL;
 
 function useGetAllUsers() {
     const getAllUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/get-users',{
+            const response = await axios.get(`${API_URL}/get-users`,{
                 withCredentials: true,
             })
             console.log('All users data:', response.data)

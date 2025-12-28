@@ -1,17 +1,18 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function useLogout() {
   const logout = async () => {
     try {
-      const response = await axios.post(`http://localhost:3000/logout`,{},{
+      const response = await axios.post(`${API_URL}/logout`,{},{
         withCredentials: true,
       });
       console.log(response.data);
       if( response.data ){
-        localStorage.clear("user"); 
-        Cookies.remove("token");
+        localStorage.removeItem("user");
+        Cookies.remove("token", { path: "/" });
       }
       return response.data;
     } catch (error) {

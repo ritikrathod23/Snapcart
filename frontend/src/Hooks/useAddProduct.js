@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function useAddProduct() {
   const addProduct = async (formDataValues) => {
@@ -13,7 +14,7 @@ function useAddProduct() {
       });
 
       const response = await axios.post(
-        `http://localhost:3000/products`,
+        `${API_URL}/products`,
         formData,
         {
           // headers: {

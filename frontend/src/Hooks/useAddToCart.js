@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function useAddToCart() {
   const queryClient = useQueryClient();
   const addToCart = async (data) => {
     try {
-      const response = await axios.post(`http://localhost:3000/cart`, data, {
+      const response = await axios.post(`${API_URL}/cart`, data, {
         // headers: {
         //   "Content-Type": "multipart/form-data ",
         // },

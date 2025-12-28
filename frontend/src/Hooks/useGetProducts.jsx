@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function useGetProducts({limit = 10} = {}) {
   const { search, pathname } = useLocation();
@@ -10,13 +11,12 @@ function useGetProducts({limit = 10} = {}) {
   if(params.length > 0){
     params = "&"+params;
   }
-  console.log("urlParams", params);
 
   const category = pathname.split("/")[1];
 
   const url = params
-    ? `http://localhost:3000/getProducts?category=${category}&${params}`
-    : `http://localhost:3000/products?category=${category}&{limit=${limit}}`;
+    ? `${API_URL}/getProducts?category=${category}&${params}`
+    : `${API_URL}/products?category=${category}&limit=${limit}`;
 
   const getProducts = async () => {
     try { 

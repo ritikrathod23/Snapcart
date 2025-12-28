@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function useGetReviews({productId}) {
 
   const getReviews = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/reviews/${productId}`,{ withCredentials: true }
+        `${API_URL}/reviews/${productId}`,{ withCredentials: true }
       );
       console.log("get", response.data);
       return response.data; // axios wraps response in data property

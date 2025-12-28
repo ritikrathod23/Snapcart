@@ -123,6 +123,32 @@ router.get("/order/:id", async (req, res) => {
   }
 });
 
+
+router.get("/orders/user/:userid", async (req, res) => {
+  const { userid } = req.params;
+  try {
+    // Convert string to ObjectId if necessary
+    const userOrderList = await orderModel
+      .find({ user: userid })
+      .populate({
+        path: "orderItems",
+        populate: {
+          path: "product",
+          select: "pName pPrice pImage",
+        },
+      });
+
+    if (!userOrderList || userOrderList.length === 0) {
+      return res.status(404).json({ message: "No orders found" });
+    }
+
+    res.status(200).json(userOrderList);
+  } catch (error) {
+    console.error("Error fetching user orders:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
+  }
+});
+
 //update order
 router.put("/order/:id", async (req, res) => {
   const {

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-
+const API_URL = import.meta.env.VITE_API_URL;
 function useAddCategory() {
   const queryClient = useQueryClient();
   const addCategory = async (formDataValues) => {
@@ -14,7 +14,7 @@ function useAddCategory() {
       });
 
       const response = await axios.post(
-        `http://localhost:3000/categories`,
+        `${API_URL}/categories`,
         formData,
         {
           // headers: {

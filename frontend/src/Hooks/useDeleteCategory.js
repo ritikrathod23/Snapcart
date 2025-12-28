@@ -1,13 +1,14 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function useDeleteCategory() {
     const queryClient = useQueryClient();
   const deleteCategory = async (cid) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/categories`,
+        `${API_URL}/categories`,
 
         {
           data: { cid: cid },

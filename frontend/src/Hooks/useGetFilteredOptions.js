@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-
+const API_URL = import.meta.env.VITE_API_URL;
 function useGetFilteredOptions() {
   const {  pathname } = useLocation();
 
@@ -17,7 +17,7 @@ function useGetFilteredOptions() {
   const getFilteredOptions = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/filters?category=${category}`
+        `${API_URL}/filters?category=${category}`
       );
       console.log("data", response.data);
       return response.data; // axios wraps response in data property

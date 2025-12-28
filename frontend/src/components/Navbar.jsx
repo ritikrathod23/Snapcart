@@ -1,6 +1,6 @@
 import { FaSearch } from "react-icons/fa";
 import { FaCartPlus } from "react-icons/fa";
-import logo from "../accest/logo.png";
+import logo from "../assets/Logo.png";
 import { Link } from "react-router-dom";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { VscAccount } from "react-icons/vsc";
@@ -14,7 +14,7 @@ import Cookies from "js-cookie";
 import { useProfileIcon } from "../contextApi/ProfileIcon";
 
 function Navbar() {
-  const {user , myUser } = useProfileIcon();
+  const { user, myUser } = useProfileIcon();
   const { toggleDrawer } = useDrawer();
   const isAdminPage = location.pathname.startsWith("/admin");
 
@@ -89,7 +89,7 @@ function Navbar() {
         <IoSearchSharp className="block md:hidden text-2xl" />
 
         <div className="flex gap-6 items-center">
-          {!isAdminPage && (
+          {!isAdminPage && myUser && (
             <Link to={"/cart"} className="relative">
               <MdOutlineShoppingCart className="text-xl md:text-3xl cursor-pointer" />
               {cartLength > 0 && (
@@ -99,12 +99,17 @@ function Navbar() {
               )}
             </Link>
           )}
-          { user && myUser? (
-              <ProfileMenu />
+          {user && user ? (
+            <ProfileMenu />
           ) : (
-            <Link to="login">
-              <button>Login/register </button>
-            </Link>
+            <div className="flex gap-2">
+              <Link to="login">
+                <button className="px-4 py-2 text-yellow-900 hover:text-yellow-600 rounded-lg transition">Login </button>
+              </Link>
+              <Link to="register">
+                <button className="px-4 py-2 border border-yellow-600 text-yellow-600 rounded-lg hover:bg-yellow-50 transition">Register </button>
+              </Link>
+            </div>
           )}
         </div>
       </div>

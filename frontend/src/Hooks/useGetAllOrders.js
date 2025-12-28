@@ -1,11 +1,12 @@
 import React from 'react'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
+const API_URL = import.meta.env.VITE_API_URL;
 
 function useGetAllOrders() {
     const getAllOrders = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/order",{
+            const res = await axios.get(`${API_URL}/order`,{
                 withCredentials:true
             })
             console.log(res.data)
