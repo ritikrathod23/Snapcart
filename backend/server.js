@@ -39,7 +39,7 @@ app.use("/api/v1", authRoutes);
 
 
 //routes
-app.use("/payments/", verifyToken, paymentRoutes);
+app.use("/api/v1/payments/", verifyToken, paymentRoutes);
 app.use("/api/v1", products);
 app.use("/api/v1", categories);
 
