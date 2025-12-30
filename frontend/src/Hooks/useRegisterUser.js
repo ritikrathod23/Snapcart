@@ -14,10 +14,9 @@ function useRegisterUser() {
           withCredentials: true,
         }
         );
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error.message, "can not get data");
+      console.error(error.message, "can not get data");
     }
   };
 

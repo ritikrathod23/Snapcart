@@ -7,10 +7,8 @@ const dotenv = require("dotenv");
 const login = async (req, res) => {
   try {
     const { email, password, isAdmin } = req.body;
-    console.log("isAdmin value:", isAdmin);
 
     const user = await User.findOne({ email });
-    console.log("User found:", user);
     if (!user) return res.status(404).json({ message: "User not found" });
 
     if (isAdmin !== true) {
@@ -38,8 +36,9 @@ const login = async (req, res) => {
     res
       .cookie("token", token, {
         httpOnly: true,
-        // sameSite: "strick",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        secure: false, // set true when using https (deployment)
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       })
       .status(200)
       .json({
@@ -53,13 +52,12 @@ const login = async (req, res) => {
         token: token,
       });
   } catch (error) {
-    console.log("error in login controller", error.message);
+    console.error("error in login controller", error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
 const register = async (req, res) => {
-  console.log("Request Body:", req.body);
   try {
     const {
       name,
@@ -100,13 +98,12 @@ const register = async (req, res) => {
       });
     });
   } catch (error) {
-    console.log("Error in Signup controller: ", error.message);
+    console.error("Error in Signup controller: ", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
 const logout = async (req, res) => {
-  console.log("Logout route accessed");
   res.clearCookie("token").status(200).json({ message: "logout successfully" });
 };
 

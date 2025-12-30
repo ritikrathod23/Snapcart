@@ -7,7 +7,6 @@ function useGetCategory() {
       const response = await axios.get(`${API_URL}/categories`,{
         withCredentials: true,
       });
-      console.log(response.data);
       return response.data; // axios wraps response in data property
     } catch (error) {
       console.log(error.message, "can not get data");

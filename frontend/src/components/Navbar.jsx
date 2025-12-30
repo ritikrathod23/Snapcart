@@ -11,10 +11,10 @@ import Avatar from "react-avatar";
 import useGetCartItems from "../Hooks/useGetCartItems";
 import { ProfileMenu } from "./ProfileMenu";
 import Cookies from "js-cookie";
-import { useProfileIcon } from "../contextApi/ProfileIcon";
+import { useAuth } from "../contextApi/AuthContextProvider";
 
 function Navbar() {
-  const { user, myUser } = useProfileIcon();
+  const { user, isAuthenticated } = useAuth();
   const { toggleDrawer } = useDrawer();
   const isAdminPage = location.pathname.startsWith("/admin");
 
@@ -84,12 +84,21 @@ function Navbar() {
         </form>
       )}
 
+      {/* Switch to Admin */}
+      {!isAdminPage && user?.isAdmin && (
+        <Link to="/admin">
+          <button className="px-4 py-2 text-gray-900 font-semibold hover:text-gray-600 tracking-wide rounded-lg  transition">
+            Switch to Admin
+          </button>
+        </Link>
+      )}
+
       {/* Buttons */}
       <div className="flex items-center justify-end space-x-4">
         <IoSearchSharp className="block md:hidden text-2xl" />
 
         <div className="flex gap-6 items-center">
-          {!isAdminPage && myUser && (
+          {!isAdminPage && user && (
             <Link to={"/cart"} className="relative">
               <MdOutlineShoppingCart className="text-xl md:text-3xl cursor-pointer" />
               {cartLength > 0 && (
@@ -99,7 +108,7 @@ function Navbar() {
               )}
             </Link>
           )}
-          {user && user ? (
+          {user && isAuthenticated ? (
             <ProfileMenu />
           ) : (
             <div className="flex gap-2">

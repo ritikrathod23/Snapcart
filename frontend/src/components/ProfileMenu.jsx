@@ -11,20 +11,14 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import useLogout from "../Hooks/useLogout";
 
 import Avatar from "react-avatar";
-import { useProfileIcon } from "../contextApi/ProfileIcon";
 import { useNavigate } from "react-router-dom";
 
 export function ProfileMenu() {
   const navigate = useNavigate();
-  const { user, myUser, setUser, setMyUser } = useProfileIcon();
-  console.log("user:", user);
-  const { mutate: logout, isPending } = useLogout();
+  const { mutate: logout } = useLogout();
   const handleLogout = (e) => {
     e.preventDefault();
-    console.log("Logout clicked");
     logout();
-    setUser(false);
-    setMyUser(null);
     localStorage.removeItem("user");
     navigate("/login");
     // location.reload();
@@ -33,7 +27,7 @@ export function ProfileMenu() {
     <Menu>
       <MenuHandler>
         <button>
-          <Avatar name={myUser?.user?.name} size="40" round={true} />
+          <Avatar name="Ritik" size="40" round={true} />
         </button>
       </MenuHandler>
       <MenuList className="z-50">

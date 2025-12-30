@@ -26,12 +26,14 @@ function useDeleteCartItems() {
     mutationKey: ["removeCartItem"],
     mutationFn: deleteCartItems,
     onSuccess: (data) => {
+      if(data){
+        console.log("Item Removed successfully: ", data);
+      }
       queryClient.invalidateQueries(["cart"]);
       toast.success("Item Removed successfully");
-      console.log("Item Removed successfully: ", data);
     },
     onError: (error) => {
-      console.log("Error while adding order: ", error);
+      console.error("Error while adding order: ", error);
     },
   });
   return mutateDeleteCartItems;

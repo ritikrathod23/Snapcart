@@ -19,7 +19,6 @@ function useGetFilteredOptions() {
       const response = await axios.get(
         `${API_URL}/filters?category=${category}`
       );
-      console.log("data", response.data);
       return response.data; // axios wraps response in data property
     } catch (error) {
       console.log(error.message, "can not get data");

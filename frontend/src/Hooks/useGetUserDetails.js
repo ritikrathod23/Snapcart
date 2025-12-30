@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useProfileIcon } from "../contextApi/ProfileIcon";
+import { useAuth } from "../contextApi/AuthContextProvider";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function useGetUserDetails() {
-  const { myUser } = useProfileIcon();
-  const id = myUser?.user?._id; 
+    const { user } = useAuth();
+  const id = user?.id;
 
   const getUserDetails = async () => {
     if (!id) return null;
@@ -15,7 +15,7 @@ function useGetUserDetails() {
       });
       return response.data; // axios wraps response in data property
     } catch (error) {
-      console.log(error.message, "can not get data");
+      console.error(error.message, "can not get data");
     }
   };
 

@@ -7,7 +7,6 @@ import { useSearchParams } from "react-router-dom";
 function useGetPaymentConfirmation() {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
-  console.log("sessionId", sessionId);
 
   const getPaymentConfirmation = async () => {
     try {
@@ -18,8 +17,6 @@ function useGetPaymentConfirmation() {
           withCredentials: true,
         }
       );
-      // toast.success("Order Confirm")
-      console.log(":", response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching payment confirmation :", error);

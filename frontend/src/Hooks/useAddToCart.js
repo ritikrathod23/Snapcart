@@ -7,15 +7,11 @@ function useAddToCart() {
   const addToCart = async (data) => {
     try {
       const response = await axios.post(`${API_URL}/cart`, data, {
-        // headers: {
-        //   "Content-Type": "multipart/form-data ",
-        // },
         withCredentials: true,
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error, "can not get data");
+      console.error(error, "can not get data");
     }
   };
 

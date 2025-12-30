@@ -5,7 +5,7 @@ const allUsers = async (req, res) => {
     const allUser = await User.find();
     return res.json(allUser).status(200);
   } catch (error) {
-    console.log(error, "cant fetch user");
+    console.error(error, "cant fetch user");
   }
 };
 

@@ -21,7 +21,10 @@ import {
 } from "lucide-react";
 import useGetUserDetails from "../Hooks/useGetUserDetails";
 import useGetUserOrders from "../Hooks/useGetUserOrders";
+import { useAuth } from "../contextApi/AuthContextProvider";
+import { Link } from "react-router-dom";
 export default function MyProfile() {
+  const { isAuthenticated } = useAuth();
 
   const { data: userOrders, refetch } = useGetUserOrders();
 
@@ -35,16 +38,15 @@ export default function MyProfile() {
     setActiveTab("orders");
   };
 
-
   // const [wishlist] = useState([
   //   { name: "Wireless Headphones", price: "$89.99", image: "🎧" },
   //   { name: "Smart Watch", price: "$299.99", image: "⌚" },
   //   { name: "Running Shoes", price: "$120.00", image: "👟" },
   // ]);
 
-  // const handleInputChange = (field, value) => {
-  //   setUserData({ ...userData, [field]: value });
-  // };
+  const handleInputChange = (field, value) => {
+    setUserData({ ...userData, [field]: value });
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -58,6 +60,19 @@ export default function MyProfile() {
         return "text-gray-600 bg-gray-50";
     }
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex justify-center flex-col gap-6 items-center text-center text-3xl mt-28">
+        Please login to view your profile
+        <Link to={"/login"} className="block">
+          <button className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-mycolor rounded w-40 py-4 hover:bg-gray-700">
+            Login
+          </button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -286,11 +301,13 @@ export default function MyProfile() {
                           <p className="font-semibold text-gray-900">
                             {order?._id}
                           </p>
-                          <p className="text-sm text-gray-500">{new Date(order?.createdAt).toUTCString()}</p>
+                          <p className="text-sm text-gray-500">
+                            {new Date(order?.createdAt).toUTCString()}
+                          </p>
                         </div>
                         <span
                           className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                            order?.status  
+                            order?.status
                           )}`}
                         >
                           {order?.status}
@@ -300,11 +317,8 @@ export default function MyProfile() {
                         <div>
                           <div className="text-sm text-gray-600">
                             {order?.orderItems?.map((item) => (
-                              <p key={item?._id}>
-                                {item?.product?.pName}
-                              </p>
-                            )
-                            )} 
+                              <p key={item?._id}>{item?.product?.pName}</p>
+                            ))}
                           </div>
                           <p className="text-sm text-gray-500">
                             {order?.orderItems?.length} items

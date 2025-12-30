@@ -23,7 +23,6 @@ export default function Register() {
   // Login function
   const onSubmit = (data) => {
     mutate(data);
-    console.log(data);
     reset();
     navigate("/login");
   };

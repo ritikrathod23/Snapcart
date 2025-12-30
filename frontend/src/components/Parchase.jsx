@@ -17,7 +17,7 @@ function Parchase({ cartData }) {
   // const items = useSelector((state) => state.cart);
 
   const user = localStorage.getItem("user");
-  const userId = user ? JSON.parse(user)?.user._id : null;
+  const userId = user ? JSON.parse(user)?.user?.id : null;
 
   const handleCheckOut = () => {
     const orderItems = cartData?.cart?.items?.map((item) => ({

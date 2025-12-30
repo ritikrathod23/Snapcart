@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
 import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
@@ -15,8 +14,6 @@ import useGetProducts from "../Hooks/useGetProducts";
 
 function Dashboard() {
   const {data: products, isLoading } = useGetProducts({limit:10});
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const images = [
     {
@@ -30,21 +27,9 @@ function Dashboard() {
     // Add more images
   ];
 
-  useEffect(() => {
-    setLoading(true);
-    const fetchedData = async () => {
-      await fetch("https://fakestoreapi.com/products?limit=10")
-        .then((res) => res.json())
-        .then((json) => setData(json));
-      console.log("data", data);
-      setLoading(false);
-    };
-    fetchedData();
-  }, []);
-
   return (
     <div className="">
-      {loading ? (
+      {isLoading ? (
         <div className="flex justify-center items-center flex-wrap gap-5  mt-4 ">
           {[...Array(10)].map((_, index) => (
             <Skeleton key={index} width={290} height={420} />

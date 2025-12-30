@@ -7,16 +7,14 @@ const API_URL = import.meta.env.VITE_API_URL;
 function useGetProductDetails() {
     const {pathname} = window.location;
     const {id} = useParams();
-    console.log("id in hook",id)
   const getProductDetails = async () => {
     try {
       const response = await axios.get(`${API_URL}/products/${id}`,{
         withCredentials: true,
       });
-      console.log(response.data);
       return response.data; // axios wraps response in data property
     } catch (error) {
-      console.log(error.message, "can not get data");
+      console.error(error.message, "can not get data");
     }
   };
 

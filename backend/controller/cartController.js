@@ -4,8 +4,7 @@ const Cart = require("../models/cartModel");
 const addToCart = async (req, res) => {
   try {
     const { products } = req.body; // array: [{ productId, quantity }]
-    // console.log(products)
-    const userId = req.auth.userid;
+    const userId = req.user._id;
 
     if (!products || !products.length) {
       return res.status(400).json({ message: "Products are required" });
@@ -42,7 +41,7 @@ const addToCart = async (req, res) => {
 // Get cart for logged-in user
 const getCart = async (req, res) => {
   try {
-    const userId = req.auth.userid;
+    const userId = req.user._id;
 
     // Find cart for user and populate product details
     const cart = await Cart.findOne({ user: userId }).populate({
@@ -52,7 +51,7 @@ const getCart = async (req, res) => {
     });
 
     if (!cart) {
-      return res.status(404).json({ message: "Cart is empty" });
+      return res.status(200).json({ message: "Cart is empty" });
     }
 
     const total = cart?.items?.reduce((sum, item) => {
@@ -68,11 +67,8 @@ const getCart = async (req, res) => {
 
 const deleteCartItems = async (req, res) => {
   try {
-    // console.log(req.body);
     const { itemId } = req.body;
-    const { userid } = req.auth;
-    console.log(userid);
-    console.log(itemId);
+    const userid  = req.user._id;
 
     const cart = await Cart.findOneAndUpdate(
       { user: userid },
@@ -83,7 +79,7 @@ const deleteCartItems = async (req, res) => {
     res.status(200).json({ "success": true, "message": "Item removed from cart" });
   } catch (error) {
     res.status(500).json({ message: "Unable to delete item" });
-    console.log("unable to delete item", error.message);
+    console.error("unable to delete item", error.message);
   }
 };
 

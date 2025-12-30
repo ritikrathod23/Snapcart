@@ -8,7 +8,6 @@ const cloudinary = require("../helper/cloudinaryConfig");
 // Get All Products
 router.get("/products", async (req, res) => {
   const { category, page = 1, limit } = req.query;
-  console.log("limit",req.headers);
 
 
   try {
@@ -17,7 +16,6 @@ router.get("/products", async (req, res) => {
     if (category) {
       const myCategory = await categoryModel.findOne({ cName: category });
 
-      // console.log("myCategory", myCategory)
       if (!myCategory) {
         return res
           .status(404)
@@ -25,7 +23,6 @@ router.get("/products", async (req, res) => {
       }
 
       query.pCategory = myCategory._id;
-      // console.log("query", query);
     }
 
     const pageNumber = parseInt(page) || 1;
@@ -133,7 +130,6 @@ router.delete("/products/:id", async (req, res) => {
   const { id } = req.params;
 
   function extractPublicId(url) {
-    // Example: https://res.cloudinary.com/demo/image/upload/v123456789/products/my-image.jpg
     const parts = url.split("/");
     const fileName = parts[parts.length - 1]; // my-image.jpg
     const folder = parts[parts.length - 2]; // products
@@ -156,7 +152,7 @@ router.delete("/products/:id", async (req, res) => {
       const publicId = extractPublicId(product.pImage);
       if (publicId) {
         const cloudRes = await cloudinary.uploader.destroy(publicId);
-        console.log("Cloudinary Delete:", cloudRes);
+        console.error("Cloudinary Delete:", cloudRes);
       }
     }
 
@@ -222,10 +218,6 @@ router.post("/upload", upload.single("file"), async (req, res) => {
   try {
     res.json(req.file);
     console.log(req.file.path);
-    // const myfile = await cloudinary.uploader.upload(req.file.path)
-    // console.log("cloudinary", myfile)
-    // const getAllData = await productsModel.find();
-    // res.status(200).json("hello");
   } catch (error) {
     console.log("can not get products", error.message);
     res.status(400).json({ message: "can not get products" });
@@ -258,14 +250,12 @@ const APIFeatures = require("../utils/filterFeature");
 
 router.get("/getProducts", async (req, res) => {
   try {
-    console.log("req.query in getProducts", req.query);
     let categoryFilter = {};
     const category = req.query.category;
     if (category) {
       const pCategory = await categoryModel.findOne({ cName: category });
       if (pCategory) {
         categoryFilter = { pCategory: pCategory._id };
-        console.log("category in getProducts", categoryFilter);
       }
     }
 

@@ -37,7 +37,7 @@ router.post("/order", async (req, res) => {
         _id: { $in: orderItemIds },
       })
       .populate("product");
-    console.log("populateItems", populatedItems);
+    console.error("populateItems", populatedItems);
 
     const amount = populatedItems.reduce(
       (acc, item) => acc + item.product.pPrice * item.quantity,
@@ -117,8 +117,7 @@ router.get("/order/:id", async (req, res) => {
     }
     res.json(orderList);
   } catch (error) {
-    console.error("Populate Error:", error.message, error.stack);
-    console.log(error);
+    console.error(error);
     res.status(500).json({ message: "Internal Server Error", error });
   }
 });
@@ -195,7 +194,7 @@ router.put("/order/:id", async (req, res) => {
     });
     res.status(201).json({ message: "order Updated" });
   } catch (error) {
-    console.log("error in updating order", error.message);
+    console.error("error in updating order", error.message);
     res.status(500).json({ message: "can not update order" });
   }
 });
@@ -218,7 +217,7 @@ router.delete("/order/:id", async (req, res) => {
     await orderModel.findByIdAndDelete(id);
     res.status(200).json({ message: "Order deleted successfully" });
   } catch (error) {
-    console.log("Can not delete order");
+    console.error("Can not delete order");
     res.status(500).json({ message: "Internal Server Error" });
   }
 });

@@ -2,7 +2,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import useLogin from "../Hooks/useLogin";
 import Switch from "@mui/material/Switch";
-import { useProfileIcon } from "../contextApi/ProfileIcon";
 import Button from "@mui/material/Button";
 import toast, { Toaster } from "react-hot-toast";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -13,7 +12,6 @@ export default function Login() {
 
   const { mutate, isLoading } = useLogin();
   const navigate = useNavigate();
-  const { setUser, setMyUser } = useProfileIcon();
 
   const {
     register,
@@ -26,8 +24,6 @@ export default function Login() {
   const onSubmit = (data) => {
     mutate(data, {
       onSuccess: (data) => {
-        setUser(true);
-        setMyUser(data);
         localStorage.setItem("user", JSON.stringify(data));
         if (data) navigate("/");
       },

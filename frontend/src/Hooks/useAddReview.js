@@ -4,10 +4,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 const API_URL = import.meta.env.VITE_API_URL;
 
-function useAddOrders() {
-  const addOrders = async (orderData) => {
+function useAddReview() {
+
+  const addReview = async (reviewData) => {
     try {
-      const res = await axios.post(`${API_URL}/order`, orderData, {
+      const res = await axios.post(`${API_URL}/reviews`, reviewData, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -19,18 +20,17 @@ function useAddOrders() {
     }
   };
 
-  const mutateAddOrders = useMutation({
-    mutationFn: addOrders,
+  const mutate = useMutation({
+    mutationFn: addReview,
     onSuccess: (data) => {
-      if (data) {
-        toast.success("Order placed successfully");
-      }
+      toast.success("Review added successfully");
+      console.error("Review added successfully: ", data);
     },
     onError: (error) => {
-      console.error("Error while adding order: ", error);
+      console.error("Error while adding review: ", error);
     },
   });
-  return mutateAddOrders;
+  return mutate;
 }
 
-export default useAddOrders;
+export default useAddReview;

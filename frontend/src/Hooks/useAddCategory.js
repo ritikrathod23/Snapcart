@@ -23,10 +23,9 @@ function useAddCategory() {
           withCredentials: true,
         }
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error, "can not get data");
+      console.error(error, "can not get data");
     }
   };
 

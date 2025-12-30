@@ -4,7 +4,6 @@ import axios from "axios";
 function useCheckout() {
   const mutation = useMutation({
     mutationFn: async (data) => {
-      console.log("data: " ,data)
       const response = await axios.post(
         "http://localhost:3000/payments/create-checkout-session",
         data,
@@ -20,7 +19,7 @@ function useCheckout() {
     },
 
     onError: (err) => {
-      console.log("Checkout failed:", err);
+      console.error("Checkout failed:", err);
     }
   });
 

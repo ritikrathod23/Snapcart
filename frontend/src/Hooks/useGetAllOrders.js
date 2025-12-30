@@ -9,10 +9,9 @@ function useGetAllOrders() {
             const res = await axios.get(`${API_URL}/order`,{
                 withCredentials:true
             })
-            console.log(res.data)
             return res.data
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 

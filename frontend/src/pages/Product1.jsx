@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addItem } from "../redux/actions";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import { SkeletonTheme } from "react-loading-skeleton";
 import useGetProductDetails from "../Hooks/useGetProductDetails";
@@ -13,24 +12,18 @@ import Card from "../components/Card";
 import useAddToCart from "../Hooks/useAddToCart";
 import { Rating } from "@material-tailwind/react";
 import Review from "../components/Review";
-import useGetReviews from "../Hooks/useGetReviews";
+import { useAuth } from "../contextApi/AuthContextProvider";
 
 function Product1() {
+  const{ isAuthenticated, user } = useAuth();
   const {
     data: productDetails,
     isLoading,
-    isError,
-    error,
   } = useGetProductDetails();
 
   const [isSizeSelected, setIsSizeSelected] = useState(null);
 
   const productId = useParams().id;
-  console.log("productId", productId);
-
-  const { data: reviews } = useGetReviews({ productId });
-  console.log("frontend reviews", reviews);
-
   const { mutate: cartMutate } = useAddToCart();
 
   const { data: products } = useGetProducts();
@@ -38,6 +31,10 @@ function Product1() {
 
   const handleCartButton = (e) => {
     e.preventDefault();
+    if (!isAuthenticated) {
+      toast.error("Please login to add items to cart.");
+      return;
+    }
     toast.success("Successfully added to cart!");
     dispatch(
       addItem({
@@ -59,9 +56,7 @@ function Product1() {
     //     features["Unnamed: 0"], title: features.Brand, price: features.Price.slice(1), image: features.Image, quantity:1 }));
   };
   const handleSizeBtn = (size) => {
-    // e.preventDefault();
     setIsSizeSelected(size);
-    console.log("Selected size:", size);
   };
   return (
     <>
@@ -187,17 +182,8 @@ function Product1() {
         </div>
       </div>
 
-      <div className="my-20 px-16 w-">
-        <span className="text-xl font-bold">REVIEWS</span>
-        <div>
-          {reviews && reviews.length === 0 && <p>No reviews yet.</p>}
-          {reviews &&
-            reviews.map((review) => (
-              <div key={review._id}>
-                <Review review={review} />
-              </div>
-            ))}
-        </div>
+      <div className="my-20 px-24 w-full">
+        <Review />
       </div>
     </>
   );

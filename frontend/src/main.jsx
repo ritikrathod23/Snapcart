@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import store from "./redux/store.js";
+import { AuthProvider } from "./contextApi/AuthContextProvider.jsx";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
@@ -30,7 +31,6 @@ import AddProduct from "./pages/admin/AddProduct.jsx";
 import { DrawerProvider } from "./contextApi/DrawerContext.jsx";
 import Register from "./pages/Register.jsx";
 import AddCategory from "./pages/admin/AddCategory.jsx";
-import { ProfileIconProvider } from "./contextApi/ProfileIcon.jsx";
 import Success from "./pages/payments/Success.jsx";
 import MyProfile from "./pages/MyProfile.jsx";
 
@@ -80,11 +80,19 @@ const router = createBrowserRouter([
       },
       {
         path: "cart",
-        element: <Cart />,
+        element: (
+          <AuthProvider>
+            <Cart />
+          </AuthProvider>
+        ),
       },
       {
         path: "/myprofile",
-        element: <MyProfile />,
+        element: (
+          <AuthProvider>
+            <MyProfile />
+          </AuthProvider>
+        ),
       },
       {
         path: ":type/:id",
@@ -139,7 +147,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <DrawerProvider>
-    <ProfileIconProvider>
+    <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <RouterProvider router={router}>
@@ -149,6 +157,6 @@ createRoot(document.getElementById("root")).render(
           </RouterProvider>
         </Provider>
       </QueryClientProvider>
-    </ProfileIconProvider>
+      </AuthProvider>
   </DrawerProvider>
 );

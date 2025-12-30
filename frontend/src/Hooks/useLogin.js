@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { useProfileIcon } from "../contextApi/ProfileIcon";
+import { useAuth } from "../contextApi/AuthContextProvider";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function useLogin() {
-  const { setUser } = useProfileIcon();
+  const { setUser } = useAuth();
   const loginUser = async (data) => {
     try {
       const response = await axios.post(`${API_URL}/login`, data, {
@@ -15,7 +15,7 @@ function useLogin() {
       });
       if (response.data) {
         localStorage.setItem("user", JSON.stringify(response.data));
-        setUser(true);
+        setUser(response.data);
       }
       return response.data;
     } catch (error) {

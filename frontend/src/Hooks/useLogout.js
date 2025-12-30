@@ -1,25 +1,30 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
+import { useAuth } from "../contextApi/AuthContextProvider";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function useLogout() {
+  const { setUser } = useAuth();
   const logout = async () => {
     try {
-      const response = await axios.post(`${API_URL}/logout`,{},{
-        withCredentials: true,
-      });
-      console.log(response.data);
-      if( response.data ){
+      const response = await axios.post(
+        `${API_URL}/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data) {
         localStorage.removeItem("user");
         Cookies.remove("token", { path: "/" });
+        setUser(null);
       }
       return response.data;
     } catch (error) {
-      console.log(error.message, "can not get data");
+      console.error(error.message, "can not get data");
     }
   };
-
 
   const mutation = useMutation({
     mutationKey: ["user-logout"],

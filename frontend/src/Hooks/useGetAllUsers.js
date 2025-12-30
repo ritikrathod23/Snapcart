@@ -9,7 +9,6 @@ function useGetAllUsers() {
             const response = await axios.get(`${API_URL}/get-users`,{
                 withCredentials: true,
             })
-            console.log('All users data:', response.data)
             return response.data
         } catch (error) {
             console.error('Error fetching users:', error)
