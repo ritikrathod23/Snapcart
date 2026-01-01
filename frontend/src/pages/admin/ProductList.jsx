@@ -1,13 +1,14 @@
 import React from "react";
 import { CiFilter } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
-import useGetProducts from "../../Hooks/useGetProducts";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import useGetAllProducts from "../../Hooks/useGetAllProductForAdmin";
 
 function ProductList() {
   const navigate = useNavigate();
-  const { data: products } = useGetProducts();
+  const { data: products } = useGetAllProducts();
+  console.log("Products data:", products);
   
   return (
     <div className="w-screen mr-4 mt-4">
@@ -45,7 +46,7 @@ function ProductList() {
         </div>
 
         {/* Product Cards */}
-        {products && products.map((product) => (
+        {products && products?.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}
       </div>

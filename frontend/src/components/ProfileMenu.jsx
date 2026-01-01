@@ -12,8 +12,10 @@ import useLogout from "../Hooks/useLogout";
 
 import Avatar from "react-avatar";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contextApi/AuthContextProvider";
 
 export function ProfileMenu() {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { mutate: logout } = useLogout();
   const handleLogout = (e) => {
@@ -21,17 +23,19 @@ export function ProfileMenu() {
     logout();
     localStorage.removeItem("user");
     navigate("/login");
-    // location.reload();
   };
   return (
     <Menu>
       <MenuHandler>
         <button>
-          <Avatar name="Ritik" size="40" round={true} />
+          <Avatar name={user?.name} size="40" round={true} />
         </button>
       </MenuHandler>
       <MenuList className="z-50">
-        <MenuItem onClick={() => navigate("/myprofile")} className="flex items-center gap-2">
+        <MenuItem
+          onClick={() => navigate("/myprofile")}
+          className="flex items-center gap-2"
+        >
           <svg
             width="16"
             height="16"

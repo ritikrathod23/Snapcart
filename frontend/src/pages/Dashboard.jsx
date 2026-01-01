@@ -13,7 +13,11 @@ import topRated from "../assets/topRated.png";
 import useGetProducts from "../Hooks/useGetProducts";
 
 function Dashboard() {
-  const {data: products, isLoading } = useGetProducts({limit:10});
+  const {
+    data: products,
+    isLoading,
+    isFetching,
+  } = useGetProducts({ limit: 10 });
 
   const images = [
     {
@@ -29,7 +33,7 @@ function Dashboard() {
 
   return (
     <div className="">
-      {isLoading ? (
+      {isLoading || isFetching ? (
         <div className="flex justify-center items-center flex-wrap gap-5  mt-4 ">
           {[...Array(10)].map((_, index) => (
             <Skeleton key={index} width={290} height={420} />
@@ -37,7 +41,6 @@ function Dashboard() {
         </div>
       ) : (
         <div className=" flex justify-center items-center flex-wrap gap-5  mt-4 ">
-
           {/* Ads Slider */}
           <div className="w-full">
             <ImageSlider images={images} />
@@ -92,16 +95,18 @@ function Dashboard() {
           </div>
 
           {/* Free Shipping banner */}
-          <div className="w-full p-12">
-            <div className="w-full h-20 flex justify-between px-4 items-center border-2 rounded-md border-solid border-mycolor">
+          <div className="w-full p-6 md:p-12">
+            <div className="w-full h-16 md:h-20 flex gap-4 justify-between px-4 items-center border-2 rounded-md border-solid border-mycolor">
               <div className=" flex items-center gap-5">
                 <LiaShippingFastSolid className="text-5xl" />
-                <p className="font-bold text-2xl uppercase">Free Shipping</p>
+                <p className="font-bold hidden md:block text-2xl uppercase">
+                  Free Shipping
+                </p>
               </div>
-              <p className="font-medium">
+              <p className="font-medium text-sm text-center md:text-2xl">
                 Free Delivery on your first order and over 200 rs{" "}
               </p>
-              <p className="text-2xl font-bold">-Only 200 Rs</p>
+              <p className="text-sm md:text-2xl font-bold">-Only 200 Rs</p>
             </div>
           </div>
 
@@ -127,36 +132,35 @@ function Dashboard() {
                 </Link>
               ))}
             </div>
-           
           </div>
 
           {/* Easy Return Top Rated Products banner */}
-           <div className=" h-36 my-5 w-full items-center content-center px-12 ">
-              <div className="h-28 border-2 flex justify-between px-8 rounded-md items-center border-solid border-mycolor">
-                <div className="flex items-center gap-3">
-                  {/* <LiaShippingFastSolid className="text-8xl" /> */}
-                  <img src={easyReturn}  width={80} alt="" />
-                  <div className="flex flex-col font-semibold items-center text-2xl">
-                    <span>Easy</span>
-                    <span>Return</span>
-                  </div>
+          <div className="h-36  my-5  w-full items-center content-center md:px-12 px-6 ">
+            <div className="md:h-28 h-16  border-2 flex justify-between px-8 rounded-md items-center border-solid border-mycolor">
+              <div className="flex  items-center gap-3">
+                {/* <LiaShippingFastSolid className="text-8xl" /> */}
+                <img src={easyReturn} className="md:w-22  w-14" alt="" />
+                <div className="flex flex-col font-semibold hidden md:block items-center text-2xl">
+                  <span>Easy</span>
+                  <span>Return</span>
                 </div>
-                <div className="flex  items-center gap-3">
-                  <img src={topRated}  width={80} alt="" />
-                  <div className="flex flex-col font-semibold items-center text-2xl">
-                    <span>Top Rated</span>
-                    <span>Products</span>
-                  </div>
+              </div>
+              <div className="flex  items-center gap-3">
+                <img src={topRated} className="md:w-22  w-14" alt="" />
+                <div className="flex flex-col  hidden md:block font-semibold items-center text-2xl">
+                  <span>Top Rated</span>
+                  <span>Products</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <LiaShippingFastSolid className="text-8xl" />
-                  <div className="flex flex-col font-semibold items-center text-2xl">
-                    <span>Cash on</span>
-                    <span>Delivery</span>
-                  </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <LiaShippingFastSolid className="text-6xl" />
+                <div className="flex flex-col  hidden md:block font-semibold items-center text-2xl">
+                  <span>Cash on</span>
+                  <span>Delivery</span>
                 </div>
               </div>
             </div>
+          </div>
         </div>
       )}
     </div>

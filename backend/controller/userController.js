@@ -1,9 +1,10 @@
 const User = require("../models/userModel");
 
 const allUsers = async (req, res) => {
+  console.log("Fetching all users");
   try {
     const allUser = await User.find();
-    return res.json(allUser).status(200);
+    return res.status(200).json(allUser);
   } catch (error) {
     console.error(error, "cant fetch user");
   }

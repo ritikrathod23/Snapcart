@@ -47,8 +47,8 @@ function OrderList() {
 
         {/* Product Cards */}
         {orders &&
-          orders.map((order) =>
-            order?.orderItems.map((items) => (
+          orders?.map((order) =>
+            order?.orderItems?.map((items) => (
               <ProductCard
                 key={items?.product._id}
                 order={order}

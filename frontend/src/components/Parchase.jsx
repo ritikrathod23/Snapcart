@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import useAddOrders from "../Hooks/useAddOrders";
 import useCheckout from "../Hooks/useCheckout";
 
 function Parchase({ cartData }) {
@@ -21,7 +19,7 @@ function Parchase({ cartData }) {
 
   const handleCheckOut = () => {
     const orderItems = cartData?.cart?.items?.map((item) => ({
-      product: item.product._id, // Just send product ID
+      product: item.product._id,
       quantity: item.quantity,
     }));
 

@@ -10,11 +10,13 @@ import useGetProductDetails from "../Hooks/useGetProductDetails";
 import useGetProducts from "../Hooks/useGetProducts";
 import Card from "../components/Card";
 import useAddToCart from "../Hooks/useAddToCart";
-import { Rating } from "@material-tailwind/react";
+import { Button, Rating } from "@material-tailwind/react";
 import Review from "../components/Review";
 import { useAuth } from "../contextApi/AuthContextProvider";
+import useCheckout from "../Hooks/useCheckout";
 
 function Product1() {
+  const {mutate: checkout} = useCheckout();
   const{ isAuthenticated, user } = useAuth();
   const {
     data: productDetails,
@@ -29,6 +31,7 @@ function Product1() {
   const { data: products } = useGetProducts();
   const dispatch = useDispatch();
 
+  // Add to Cart Button Function
   const handleCartButton = (e) => {
     e.preventDefault();
     if (!isAuthenticated) {
@@ -49,15 +52,21 @@ function Product1() {
       products: [{ productId: productDetails._id, quantity: 1 }],
     });
   };
+
+  // Buy Now Button Function
   const handleBuyNow = () => {
-    // e.preventDefault();
-    //   navigate("/cart")
-    //   dispatch(addItem({pid:
-    //     features["Unnamed: 0"], title: features.Brand, price: features.Price.slice(1), image: features.Image, quantity:1 }));
+    const orderItems = [{ product: productDetails._id, quantity: 1 }];
+    
+    checkout({
+      orderItems,
+      user: user.id,
+    });
   };
   const handleSizeBtn = (size) => {
     setIsSizeSelected(size);
   };
+
+  
   return (
     <>
       <div>
@@ -87,7 +96,7 @@ function Product1() {
                   alt="Product"
                   src={productDetails.pImage}
                 />
-              </div>
+              </div>  
               <div className="md:hidden">
                 <img
                   className="w-full"
@@ -137,16 +146,16 @@ function Product1() {
                     </div>
                   </div>
                 </div>
-                <div className="flex gap-3 justify-around lg:mt-3  fixed bottom-0 w-full lg:relative lg:bottom-0">
+                <div className="flex z-10  gap-1  justify-around md:mt-3 fixed bottom-0 w-full md:relative md:bottom-0 md:w-auto md:justify-start bg-white md:bg-transparent py-4 md:py-0 px-4 md:px-0">
                   <button
                     onClick={handleBuyNow}
-                    className="dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-gray-800 w-40 py-4 hover:bg-gray-700"
+                    className="text-base rounded flex items-center justify-center leading-none text-white bg-mycolor w-36 md:w-40 py-4 hover:bg-mycolornew"
                   >
                     Buy Now
                   </button>
                   <button
                     onClick={handleCartButton}
-                    className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-gray-800 w-40 py-4 hover:bg-gray-700"
+                    className=" rounded text-base flex items-center justify-center leading-none text-white bg-mycolor w-36 md:w-40 py-4 hover:bg-mycolornew"
                   >
                     Add to Cart
                   </button>
@@ -163,6 +172,8 @@ function Product1() {
           )}
         </div>
       )}
+
+      {/* Similar products section */}
       <div className="mt-20 mb-10 ">
         <p className="px-16 text-xl font-bold ">SIMILAR PRODUCTS</p>
         <div className="flex overflow-auto justify-center items-center flex-wrap gap-5  mt-4 ">
@@ -182,9 +193,10 @@ function Product1() {
         </div>
       </div>
 
-      <div className="my-20 px-24 w-full">
+      {/* Review section */}
+      {/* <div className="my-20 px-24 w-full"> */}
         <Review />
-      </div>
+      {/* </div> */}
     </>
   );
 }

@@ -11,9 +11,9 @@ const images = [
 
 function AdsCards() {
   return (
-    <div className="flex justify-center items-center flex-wrap">
+    <div className="flex  justify-center p-6 items-center flex-wrap">
       {images.map((image, index) => (
-        <div key={index} className="w-[465px]">
+        <div key={index} className="flex md:w-[465px]">
           <img className="-hue-rotate-15" src={image} alt="" />
         </div>
       ))}

@@ -51,7 +51,7 @@ function Review({ review }) {
   //   return <div className="">No review available</div>;
   // }
   return (
-    <div className="w-full mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="w-full mx-auto pb-28 md:pb-10 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Product Reviews</h2>
       {reviewsData &&
         reviewsData.map((review) => (
@@ -85,7 +85,7 @@ function Review({ review }) {
       {!showForm && (
         <button
           onClick={handleAddReview}
-          className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+          className="flex items-center gap-2 bg-mycolor text-white px-6 py-3 rounded-lg hover:bg-mycolornew transition-colors duration-200"
         >
           <FaPlus className="text-sm" />
           Write a Review

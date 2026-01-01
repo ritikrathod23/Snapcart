@@ -81,17 +81,13 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: (
-          <AuthProvider>
             <Cart />
-          </AuthProvider>
         ),
       },
       {
         path: "/myprofile",
         element: (
-          <AuthProvider>
             <MyProfile />
-          </AuthProvider>
         ),
       },
       {

@@ -46,7 +46,7 @@ app.use("/api/v1", categories);
 app.use("/api/v1", verifyToken, user);
 app.use("/api/v1", verifyToken, order);
 app.use("/api/v1", verifyToken, cartRoutes);
-app.use("/api/v1", adminDashboardRoute);
+app.use("/api/v1", verifyToken, adminDashboardRoute);
 app.use("/api/v1", review);
 
 app.use(handleError);

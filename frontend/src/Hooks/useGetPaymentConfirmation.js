@@ -11,7 +11,7 @@ function useGetPaymentConfirmation() {
   const getPaymentConfirmation = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/payments/orders/create-from-session",
+        `${import.meta.env.VITE_API_URL}/payments/orders/create-from-session`,
         { sessionId },
         {
           withCredentials: true,

@@ -14,16 +14,16 @@ function Customer() {
   const handleDelete = async (categoryId) => {
     console.log("delete", categoryId);
     try {
-      await deleteCategory  (categoryId, {
+      await deleteCategory(categoryId, {
         onSuccess: () => {
-          toast.success("Category deleted successfully");
+          toast.success("Customer deleted successfully");
         },
         onError: () => {
-          toast.error("Error deleting category");
+          toast.error("Error deleting customer");
         },
       });
     } catch (error) {
-      console.error("Error deleting category:", error);
+      console.error("Error deleting customer:", error);
     }
   };
 
@@ -33,15 +33,6 @@ function Customer() {
       {/* Header Section */}
       <div className="flex justify-between items-center h-16 px-4  bg-white shadow-sm border border-gray-200">
         <h1 className="text-xl  font-semibold text-gray-800">Customer List</h1>
-        {/* <div className="flex space-x-4">
-          <button className="px-4 py-2 border flex gap-2 border-gray-300 rounded-sm text-gray-700 hover:bg-gray-50 transition-colors">
-            <CiFilter className="text-2xl" />
-            Filter
-          </button>
-          <button className="px-4 py-2 bg-mycolor text-white rounded-sm hover:bg-mycolornew transition-colors">
-            Add Category
-          </button>
-        </div> */}
       </div>
       {/* Products Table */}
       <div className="bg-white shadow-sm overflow-hidden border border-gray-200">

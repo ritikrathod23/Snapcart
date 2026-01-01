@@ -1,12 +1,14 @@
 const productsModel = require("../models/productsModel");
 const orderModel = require("../models/orderModel");
 const userModel = require("../models/userModel");
+const reviewModel = require("../models/reviewModel");
 
 const adminDashDetails = async (req, res) => {
   try {
     const totalProducts = await productsModel.countDocuments();
     const totalOrders = await orderModel.countDocuments();
     const totalUsers = await userModel.countDocuments();
+    const totalReviews = await reviewModel.countDocuments();
 
     return res.status(200).json({
       success: true,
@@ -14,6 +16,7 @@ const adminDashDetails = async (req, res) => {
         totalProducts,
         totalOrders,
         totalUsers,
+        totalReviews,
       },
     });
   } catch (error) {

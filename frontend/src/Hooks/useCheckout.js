@@ -1,11 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL
 
 function useCheckout() {
   const mutation = useMutation({
     mutationFn: async (data) => {
       const response = await axios.post(
-        "http://localhost:3000/payments/create-checkout-session",
+        `${API_URL}/payments/create-checkout-session`,
         data,
         { withCredentials: true }
       );
