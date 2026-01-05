@@ -33,6 +33,8 @@ import Register from "./pages/Register.jsx";
 import AddCategory from "./pages/admin/AddCategory.jsx";
 import Success from "./pages/payments/Success.jsx";
 import MyProfile from "./pages/MyProfile.jsx";
+import AdminRoute from "./helper/AdminRoute.jsx";
+import { ProtectedRoute } from "./helper/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -81,13 +83,17 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: (
+          <ProtectedRoute>
             <Cart />
+          </ProtectedRoute>
         ),
       },
       {
         path: "/myprofile",
         element: (
+          <ProtectedRoute>
             <MyProfile />
+          </ProtectedRoute>
         ),
       },
       {
@@ -103,7 +109,11 @@ const router = createBrowserRouter([
   },
   {
     path: "admin",
-    element: <AdminLayout />,
+    element: (
+      <AdminRoute>
+        <AdminLayout />
+      </AdminRoute>
+    ),
     children: [
       {
         path: "/admin",
@@ -139,6 +149,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "*",
+    element: <div>No such path found</div>,
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(
@@ -153,6 +167,6 @@ createRoot(document.getElementById("root")).render(
           </RouterProvider>
         </Provider>
       </QueryClientProvider>
-      </AuthProvider>
+    </AuthProvider>
   </DrawerProvider>
 );

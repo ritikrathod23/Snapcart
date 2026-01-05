@@ -5,9 +5,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import useDeleteCategory from "../../Hooks/useDeleteCategory";
 import toast, { Toaster } from "react-hot-toast";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 function Customer() {
-  const { data: customer } = useGetAllUsers();
+  const { data: customer, isLoading, isFetching } = useGetAllUsers();
   console.log("customer data:", customer);
   const { mutate: deleteCategory } = useDeleteCategory();
 
@@ -29,31 +30,77 @@ function Customer() {
 
   return (
     <div className="w-screen mr-4 mt-4">
-      <Toaster position="top-center" /> {/* Account for sidebar width */}
-      {/* Header Section */}
-      <div className="flex justify-between items-center h-16 px-4  bg-white shadow-sm border border-gray-200">
-        <h1 className="text-xl  font-semibold text-gray-800">Customer List</h1>
-      </div>
-      {/* Products Table */}
-      <div className="bg-white shadow-sm overflow-hidden border border-gray-200">
-        {/* Table Header */}
-        <div className="grid grid-cols-10 gap-4 p-4 bg-gray-50 border-b border-gray-200 font-medium text-gray-600">
-          <div className="col-span-1 flex items-center">
-            <input type="checkbox" className="h-4 w-4 text-blue-600 rounded" />
-          </div>
-          <div className="col-span-3">Customer Name</div>
-          <div className="col-span-2">Email</div>
-          <div className="col-span-1">City</div>
-          <div className="col-span-2">Phone</div>
-          <div className="col-span-1">Action</div>
-        </div>
+      <Toaster position="top-center" />
+      {isLoading || isFetching ? (
+        <div className="mt-6 w-full p-6">
+          <SkeletonTheme baseColor="#e0e0e0" highlightColor="#f5f5f5">
+            <div className=" rounded-md overflow-hidden">
+              {/* Header Skeleton */}
+              <div className="grid grid-cols-12 gap-4 p-4 bg-gray-100 ">
+                <Skeleton height={20} className="col-span-1" />
+                <Skeleton height={20} className="col-span-2" />
+                <Skeleton height={20} className="col-span-2" />
+                <Skeleton height={20} className="col-span-2" />
+                <Skeleton height={20} className="col-span-1" />
+                <Skeleton height={20} className="col-span-2" />
+                <Skeleton height={20} className="col-span-1" />
+              </div>
 
-        {/* Product Cards */}
-        {customer &&
-          customer?.map((cus) => (
-            <ProductCard handleDelete={handleDelete} cus={cus} key={cus._id} />
-          ))}
-      </div>
+              {/* Rows */}
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="grid grid-cols-12 gap-4 p-4 border-b border-gray-200"
+                >
+                  <Skeleton height={20} className="col-span-1" />
+                  <Skeleton height={20} className="col-span-2" />
+                  <Skeleton height={20} className="col-span-2" />
+                  <Skeleton height={20} className="col-span-2" />
+                  <Skeleton height={20} className="col-span-1" />
+                  <Skeleton height={20} className="col-span-2" />
+                  <Skeleton height={20} className="col-span-1" />
+                </div>
+              ))}
+            </div>
+          </SkeletonTheme>
+        </div>
+      ) : (
+        <>
+          {/* Header Section */}
+          <div className="flex justify-between items-center h-16 px-4  bg-white shadow-sm border border-gray-200">
+            <h1 className="text-xl  font-semibold text-gray-800">
+              Customer List
+            </h1>
+          </div>
+          {/* Products Table */}
+          <div className="bg-white shadow-sm overflow-hidden border border-gray-200">
+            {/* Table Header */}
+            <div className="grid grid-cols-10 gap-4 p-4 bg-gray-50 border-b border-gray-200 font-medium text-gray-600">
+              <div className="col-span-1 flex items-center">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 text-blue-600 rounded"
+                />
+              </div>
+              <div className="col-span-3">Customer Name</div>
+              <div className="col-span-2">Email</div>
+              <div className="col-span-1">City</div>
+              <div className="col-span-2">Phone</div>
+              <div className="col-span-1">Action</div>
+            </div>
+
+            {/* Product Cards */}
+            {customer &&
+              customer?.map((cus) => (
+                <ProductCard
+                  handleDelete={handleDelete}
+                  cus={cus}
+                  key={cus._id}
+                />
+              ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -71,14 +118,10 @@ const ProductCard = ({ cus, handleDelete }) => (
       /> */}
       <span className="text-gray-800">{cus?.name}</span>
     </div>
-    <div className="col-span-2 text-justify text-gray-600">
-      {cus?.email }
-    </div>
+    <div className="col-span-2 text-justify text-gray-600">{cus?.email}</div>
     {/* <div className="col-span-2 font-medium text-gray-800">$29.99</div> */}
     <div className="col-span-1 text-gray-600">{cus?.city}</div>
-    <div className="col-span-2">
-      {cus?.phone}
-    </div>
+    <div className="col-span-2">{cus?.phone}</div>
     <div className="col-span-1">
       <div className=" flex col-span-1 gap-3 ">
         <button className="text-blue-600 hover:text-blue-800 hover:underline">

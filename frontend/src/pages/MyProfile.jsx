@@ -23,6 +23,8 @@ import useGetUserDetails from "../Hooks/useGetUserDetails";
 import useGetUserOrders from "../Hooks/useGetUserOrders";
 import { useAuth } from "../contextApi/AuthContextProvider";
 import { Link } from "react-router-dom";
+import formatDate from "../helper/DateFormate";
+
 export default function MyProfile() {
   const { isAuthenticated } = useAuth();
 
@@ -98,8 +100,8 @@ export default function MyProfile() {
                 <h2 className="mt-4 text-xl font-bold text-gray-900">
                   {userData?.name}
                 </h2>
-                <p className="text-sm text-gray-500">
-                  Member since {new Date(userData?.date).toUTCString()}
+                <p className="text-sm flex flex-col  text-gray-500">
+                  <span>Member since</span> <span>{formatDate(userData?.date)}</span>
                 </p>
               </div>
 
@@ -277,7 +279,7 @@ export default function MyProfile() {
                       Member Since
                     </label>
                     <p className="px-4 py-2 bg-gray-50 rounded-lg text-gray-900">
-                      {new Date(userData?.date).toUTCString()}
+                      {formatDate(userData?.date)}
                     </p>
                   </div>
                 </div>
@@ -302,7 +304,7 @@ export default function MyProfile() {
                             {order?._id}
                           </p>
                           <p className="text-sm text-gray-500">
-                            {new Date(order?.createdAt).toUTCString()}
+                            {formatDate(order?.createdAt)}
                           </p>
                         </div>
                         <span

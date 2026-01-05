@@ -7,8 +7,10 @@ import toast, { Toaster } from "react-hot-toast";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
+import { useAuth } from "../contextApi/AuthContextProvider";
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const { setUser } = useAuth();
 
   const { mutate, isLoading } = useLogin();
   const navigate = useNavigate();
@@ -24,7 +26,9 @@ export default function Login() {
   const onSubmit = (data) => {
     mutate(data, {
       onSuccess: (data) => {
-        localStorage.setItem("user", JSON.stringify(data));
+        localStorage.setItem("user", JSON.stringify(data?.user));
+        console.log("data from login:", data?.user);
+        setUser(data?.user);
         if (data) navigate("/");
       },
       onError: (error) => {

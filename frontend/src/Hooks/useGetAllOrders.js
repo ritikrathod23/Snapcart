@@ -9,6 +9,7 @@ function useGetAllOrders() {
       const res = await axios.get(`${API_URL}/order`, {
         withCredentials: true,
       });
+      console.log("Fetched Orders:", res.data);
       return res.data;
     } catch (error) {
       console.error(error);
@@ -18,6 +19,7 @@ function useGetAllOrders() {
   return useQuery({
     queryKey: ["orders"],
     queryFn: getAllOrders,
+    enabled: true,
     staleTime: 5 * 60 * 1000, // 5 minutes
     cacheTime: 30 * 60 * 1000, // 30 minutes
     refetchOnWindowFocus: false,

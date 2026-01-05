@@ -108,7 +108,7 @@ function Navbar() {
               )}
             </Link>
           )}
-          {user && isAuthenticated ? (
+          {user  ? (
             <ProfileMenu />
           ) : (
             <div className="flex gap-2">

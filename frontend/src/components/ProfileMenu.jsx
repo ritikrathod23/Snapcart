@@ -16,6 +16,7 @@ import { useAuth } from "../contextApi/AuthContextProvider";
 
 export function ProfileMenu() {
   const { user } = useAuth();
+  console.log("ProfileMenu user:", user);
   const navigate = useNavigate();
   const { mutate: logout } = useLogout();
   const handleLogout = (e) => {
